@@ -1,5 +1,5 @@
 import { apply, compose, pipe, filter, map, split, nth, match, keys } from 'ramda';
-import lvar from './lvar';
+import { of as lvar } from './lvar';
 
 const rx = /^_\.(\d+)/;
 const prefix = '_.';
@@ -24,7 +24,7 @@ const getNext = s => {
 //       ((f (var c)) `( ,(car s/c) . ,(+ c 1))))))
 export default function fresh(goalFn) {
   return s => {
-    const goal = goalFn(lvar.of(getNext(s)));
+    const goal = goalFn(lvar(getNext(s)));
     return goal(s);
   };
 }

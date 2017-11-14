@@ -1,4 +1,4 @@
-import lvar from './lvar';
+import { isLvar } from './lvar';
 
 // The walk operator searches for a variable's value in the substitution.
 // When a non-variable term is walked, the term itself is returned.
@@ -6,7 +6,7 @@ import lvar from './lvar';
 //  (let ((pr (and (var? u) (assp (λ (v) (var=? u v)) s))))
 //   (if pr (walk (cdr pr) s) u)))
 export default function walk(term, s) {
-  return lvar.isLvar(term) && term.name in s ?
+  return isLvar(term) && term.name in s ?
     walk(s[term.name], s) :
     term;
 }

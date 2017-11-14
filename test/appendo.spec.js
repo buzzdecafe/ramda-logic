@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import appendo from '../src/appendo';
-import lvar from '../src/lvar';
+import * as lvar from '../src/lvar';
 import run from '../src/run';
 import { of as stream, empty } from '../src/stream';
 
@@ -18,6 +18,7 @@ describe('appendo', () => {
     //    `q.tail()` -> xs.head().l3p
     // those two variables (`h` and `l3p`) are bound to 1 and `cons(2, empty)` resp.
     // so, indirectly via the returned bindings, `vq` is bound to the stream [1, 2]
+    //console.log('xs.head', xs.head()); // eslint-disable-line
     expect(h).to.eql(1);
     expect(t).to.eql(empty());
     expect(l3p.toString()).to.eql('Cons(2, Empty)');

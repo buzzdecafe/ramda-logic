@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import choice from '../src/choice';
 import conj from '../src/conj';
 import fail from '../src/fail';
-import lvar from '../src/lvar';
+import { of as lvar } from '../src/lvar';
 import run from '../src/run';
 import { fromArray } from '../src/stream';
 import succeed from '../src/succeed';
@@ -23,7 +23,7 @@ describe('choice', () => {
   });
 
   it('may have multiple bindings if a logic variable can be repeatedly bound', () => {
-    const vx = lvar.of('x');
+    const vx = lvar('x');
     const xs = run(choice(vx, s123));
 
     // there are three possible bindings for `vx`: 1, 2, or 3
@@ -44,7 +44,7 @@ describe('choice', () => {
     );
 
     it('succeeds if it can find a common element in two lists', () => {
-      const common = commonEl(lvar.of('x'));
+      const common = commonEl(lvar('x'));
       const xs = run(common(s123, s345));
 
       expect(xs.head()).to.eql(succeed({x: 3}).head());
@@ -52,7 +52,7 @@ describe('choice', () => {
     });
 
     it('may succeed with more than one binding', () => {
-      const common = commonEl(lvar.of('x'));
+      const common = commonEl(lvar('x'));
       const xs = run(common(s345, s3417));
 
       expect(xs.head()).to.eql(succeed({x: 3}).head());
@@ -61,7 +61,7 @@ describe('choice', () => {
     });
 
     it('fails if it finds no common elements', () => {
-      const common = commonEl(lvar.of('x'));
+      const common = commonEl(lvar('x'));
       const xs = run(common(s123, s1347));
       expect(xs).to.eql(fail());
     });

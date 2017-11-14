@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import lvar from '../src/lvar';
+import { of as lvar } from '../src/lvar';
 import smap from '../src/smap';
 import eq from '../src/eq';
 import { fromArray } from '../src/stream';
 
 
 describe('eq', function() {
-  const vu = lvar.of('u');
-  const vv = lvar.of('v');
+  const vu = lvar('u');
+  const vv = lvar('v');
 
   it('returns a goal function', function() {
     expect(eq(vu, vv)).to.be.a('function');
@@ -35,31 +35,31 @@ describe('eq', function() {
   });
 
   it('can unify inside a list (1)', function() {
-    const a = fromArray([lvar.of('x'), 2, 3]);
+    const a = fromArray([lvar('x'), 2, 3]);
     const b = fromArray(['banana', 2, 3]);
     expect(eq(a, b)(smap({})).toArray()).to.eql([{x: 'banana'}]);
   });
 
   it('can unify inside a list (2)', function() {
-    const a = fromArray([1, lvar.of('x'), 3]);
+    const a = fromArray([1, lvar('x'), 3]);
     const b = fromArray([1, 'banana', 3]);
     expect(eq(a, b)(smap({})).toArray()).to.eql([{x: 'banana'}]);
   });
 
   it('can unify inside a list (3)', function() {
-    const a = fromArray([1, 2, lvar.of('x')]);
+    const a = fromArray([1, 2, lvar('x')]);
     const b = fromArray([1, 2, 'banana']);
     expect(eq(a, b)(smap({})).toArray()).to.eql([{x: 'banana'}]);
   });
   
   it('can unify two variables inside a list', function() {
-    const a = fromArray([1, lvar.of('x'), 3, lvar.of('y'), 5]);
+    const a = fromArray([1, lvar('x'), 3, lvar('y'), 5]);
     const b = fromArray([1, 2, 3, 4, 5]);
     expect(eq(a, b)(smap({})).toArray()).to.eql([{x: 2, y: 4}]);
   });
 
   it('can fail to unify inside a list', function() {
-    const a = fromArray([1, 2, lvar.of('x')]);
+    const a = fromArray([1, 2, lvar('x')]);
     const b = fromArray(['cherry', 'grape', 'banana']);
     expect(eq(a, b)(smap({})).toArray()).to.eql([]);
   });

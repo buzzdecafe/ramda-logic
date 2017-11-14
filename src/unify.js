@@ -1,7 +1,7 @@
 import { equals } from 'ramda';
 import Type from 'union-type';
 import exts from './exts';
-import lvar from './lvar';
+import * as lvar from './lvar';
 import { isStream } from './stream';
 import walk from './walk';
 

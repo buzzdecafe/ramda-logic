@@ -11,7 +11,7 @@ describe('fresh', function() {
   });
 
   it('creates a new logic variable in the returned state', function() {
-    console.log(fresh(q5)(smap({})).toString()); // eslint-disable-line no-console
-    expect(fresh(q5)(smap({})).toArray()).to.eql([{'_.0': 5}]);
+    //console.log(fresh(q5)(smap({})).toString()); // eslint-disable-line no-console
+    expect(fresh(q5)(smap({})).head()).to.eql({'_.0': 5});
   });
 });
