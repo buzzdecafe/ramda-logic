@@ -1,18 +1,5 @@
-import { apply, compose, pipe, filter, map, split, nth, match, keys } from 'ramda';
 import { of as lvar } from './lvar';
-
-const rx = /^_\.(\d+)/;
-const prefix = '_.';
-const maxK = pipe(
-  filter(match(rx)),
-  map(compose(parseInt, nth(1), split('.'))),
-  apply(Math.max)
-);
-
-const getNext = s => {
-  const next = maxK(keys(s));
-  return next === -Infinity ? prefix + '0' : prefix + (next + 1);
-};
+import { getNext } from './smap';
 
 // The call/fresh goal constructor creates a fresh (new) logic variable.
 // call/fresh's sole argument is a unary function whose binding variable is
@@ -25,6 +12,20 @@ const getNext = s => {
 export default function fresh(goalFn) {
   return s => {
     const goal = goalFn(lvar(getNext(s)));
+    return goal(s);
+  };
+}
+
+export function fresh2(goalFn) {
+  return s => {
+    const goal = goalFn(lvar(getNext(s)), lvar(getNext(s)));
+    return goal(s);
+  };
+}
+
+export function fresh3(goalFn) {
+  return s => {
+    const goal = goalFn(lvar(getNext(s)), lvar(getNext(s)), lvar(getNext(s)));
     return goal(s);
   };
 }
